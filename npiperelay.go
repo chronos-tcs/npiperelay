@@ -142,7 +142,7 @@ func main() {
 				log.Printf("Port: %d, Nonce: %X", port, nonce)
 			}
 
-			_ = conn.Close()
+			conn.Close()
 
 			// Try to connect to the libassaun TCP socket hosted on localhost
 			conn, err = dialPort(port, *poll)
@@ -152,9 +152,8 @@ func main() {
 				continue
 			}
 
-			err = os.NewSyscallError("ConnectEx", err)
-
 			if err != nil {
+				err = os.NewSyscallError("ConnectEx", err)
 				log.Fatal(err)
 			}
 
